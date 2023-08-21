@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import requests
+from telegram.constants import ParseMode
 from telegram import Bot 
 import sys
 
@@ -22,9 +23,9 @@ async def main():
     quote = response.json()['content']
     author_name = response.json()['author']['name']
 
-    full_quote = f"{quote}\n\n- {author_name}"
-    await bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=full_quote)
-    print(full_quote)
+    formatted_quote = f"{quote}\n\n- <i>{author_name}</i>"
+    await bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=formatted_quote, parse_mode=ParseMode.HTML)
+    print(formatted_quote)
 
 
 def lambda_handler(event, context):
